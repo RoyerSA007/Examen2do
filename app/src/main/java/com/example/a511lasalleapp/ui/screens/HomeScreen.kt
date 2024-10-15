@@ -41,6 +41,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.a511lasalleapp.R
 import com.example.a511lasalleapp.ui.components.CardImage
@@ -48,12 +50,13 @@ import com.example.a511lasalleapp.ui.components.Widget
 import com.example.a511lasalleapp.ui.theme._511LaSalleAppTheme
 import com.example.a511lasalleapp.utils.Cash
 import com.example.a511lasalleapp.utils.Logout
+import com.example.a511lasalleapp.utils.Screens
 import com.example.a511lasalleapp.utils.Task
 import com.example.a511lasalleapp.utils.communities
 import com.example.a511lasalleapp.utils.newsList
 
 @Composable
-fun HomeScreen(innerPadding: PaddingValues) {
+fun HomeScreen(innerPadding: PaddingValues,navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -161,7 +164,7 @@ fun HomeScreen(innerPadding: PaddingValues) {
                 ) {
                     items(newsList) { news ->
                         CardImage(news=news){
-                            Log.i("News",it.id.toString())
+                            navController.navigate(Screens.NewsDetail.route+"/${news.id}")
                         }
                     }
                 }
@@ -203,6 +206,7 @@ fun HomeScreen(innerPadding: PaddingValues) {
 @Composable
 fun HomeScreenPreview() {
     _511LaSalleAppTheme {
-        HomeScreen(innerPadding = PaddingValues(0.dp))
+        val navController = rememberNavController()
+        HomeScreen(innerPadding = PaddingValues(0.dp),navController = navController)
     }
 }

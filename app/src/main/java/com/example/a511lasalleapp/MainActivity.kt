@@ -29,9 +29,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.a511lasalleapp.models.BottomNavigationItem
 import com.example.a511lasalleapp.ui.screens.CalendarScreen
 import com.example.a511lasalleapp.ui.screens.GradesScreen
@@ -98,7 +100,7 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     NavHost(navController = navController, startDestination = Screens.Home.route) {
                         composable(route = Screens.Home.route) {
-                            HomeScreen(innerPadding = innerPadding)
+                            HomeScreen(innerPadding = innerPadding, navController = navController)
                         }
                         composable(route = Screens.Grades.route) {
                             GradesScreen(innerPadding = innerPadding)
@@ -109,8 +111,16 @@ class MainActivity : ComponentActivity() {
                         composable(route = Screens.Settings.route) {
                             SettingsScreen(innerPadding = innerPadding)
                         }
-                        composable(route = Screens.NewsDetail.route) {
-                            NewsDetailScreen(innerPadding = innerPadding)
+                        composable(
+                            route = Screens.NewsDetail.route+"/{newsId}",
+                            arguments = listOf(
+                                navArgument("newsId"){
+                                    type=NavType.IntType
+                                }
+                            )
+                        ) {
+                            val newsId = it.arguments?.getInt("newsId") ?: 0
+                            NewsDetailScreen(innerPadding = innerPadding, newsId = newsId)
                         }
 
                     }
