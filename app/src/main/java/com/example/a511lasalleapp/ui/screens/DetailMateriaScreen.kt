@@ -1,62 +1,69 @@
 package com.example.a511lasalleapp.ui.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.compose.foundation.lazy.items
+
 
 @Composable
-fun GradesScreen(innerPadding : PaddingValues, navController: NavController) {
+fun DetalleMateriaScreen(materiaId: String?) {
+    // Simulamos los datos de los parciales de la materia
+    val calcificationParticiples = listOf(9.0, 9.5, 8.7)
+
     Column(modifier = Modifier
         .fillMaxSize()
-        .padding(innerPadding)) {
+        .padding(16.dp)) {
 
         // Información del alumno
         Text("Nombre: Juan Frausto")
         Text("Carrera: Ingeniería en Sistemas")
         Text("Semestre: 5to")
+        Text("Materia: $materiaId")
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Información de calificaciones
         Text("Promedio acumulado: 9.5")
 
-        // Encabezados de tabla
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Encabezados de tabla de parciales
         Row(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "Materia",
+                text = "Parcial",
                 modifier = Modifier.weight(1f)
             )
             Text(
-                text = "Promedio",
+                text = "Calificación",
                 modifier = Modifier.weight(1f)
             )
         }
 
-        // Lista de materias y promedios
-        val materias = listOf("Matemáticas" to 9.0, "Programación" to 9.5, "Redes" to 8.8)
+        // Calificaciones de los parciales
         LazyColumn {
-            items(materias) { materia ->
+            items(calcificationParticiples.toList()) { index ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { navController.navigate("detalle_materia/${materia.first}") }
                         .padding(16.dp)
                 ) {
                     Text(
-                        text = materia.first,
-                        modifier = Modifier.weight(1f)
+                        text = "Parcial ${index + 1}",
+                        modifier = Modifier.weight(1f),
                     )
                     Text(
-                        text = materia.second.toString(),
-                        modifier = Modifier.weight(1f)
+                        text = calcificationParticiples[index.toInt()].toString(),
+                        modifier = Modifier.weight(1f),
                     )
                 }
             }
